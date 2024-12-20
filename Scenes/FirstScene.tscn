@@ -1,8 +1,7 @@
-[gd_scene load_steps=5 format=3 uid="uid://bjfb3pjs7xrbf"]
+[gd_scene load_steps=4 format=3 uid="uid://bjfb3pjs7xrbf"]
 
 [ext_resource type="Script" path="res://Scripts/first_scene.gd" id="1_hqyvb"]
-[ext_resource type="Script" path="res://Scripts/select_and_play_audio.gd" id="2_s3swi"]
-[ext_resource type="Script" path="res://Scripts/select_sub_file.gd" id="3_68k5b"]
+[ext_resource type="Script" path="res://Scripts/select_session.gd" id="2_s3swi"]
 [ext_resource type="Script" path="res://Scripts/SessionData.gd" id="4_p33wf"]
 
 [node name="Main" type="Node2D"]
@@ -10,17 +9,6 @@ script = ExtResource("1_hqyvb")
 metadata/_edit_vertical_guides_ = [575.0]
 
 [node name="MainMenuUI" type="CanvasLayer" parent="."]
-
-[node name="SelectAndPlayAudio" type="FileDialog" parent="MainMenuUI"]
-auto_translate_mode = 1
-title = "Open a File"
-initial_position = 4
-size = Vector2i(800, 450)
-ok_button_text = "Open"
-file_mode = 0
-access = 2
-filters = PackedStringArray("*.mp3", "*.ogg")
-script = ExtResource("2_s3swi")
 
 [node name="BeginHypnosisButton" type="Button" parent="MainMenuUI"]
 anchors_preset = 8
@@ -36,46 +24,26 @@ grow_horizontal = 2
 grow_vertical = 2
 text = "Begin Hypnosis"
 
-[node name="LoadMP3Button" type="Button" parent="MainMenuUI"]
-offset_left = 360.0
-offset_top = 482.0
-offset_right = 506.0
-offset_bottom = 532.0
-text = "Load MP3"
-
-[node name="MP3SelectedLabel" type="Label" parent="MainMenuUI"]
-offset_left = 361.0
-offset_top = 548.0
-offset_right = 504.0
-offset_bottom = 597.0
-text = "Loaded file:
-Nothing loaded"
-horizontal_alignment = 1
-
-[node name="SubFileButton" type="Button" parent="MainMenuUI"]
-offset_left = 641.0
-offset_top = 482.0
-offset_right = 787.0
-offset_bottom = 532.0
-text = "Load Subliminals"
-
-[node name="SubSelectedLabel" type="Label" parent="MainMenuUI"]
-offset_left = 642.0
-offset_top = 548.0
-offset_right = 785.0
-offset_bottom = 597.0
-text = "Loaded file:
-Nothing loaded"
-horizontal_alignment = 1
-
-[node name="SelectSubFile" type="FileDialog" parent="MainMenuUI"]
+[node name="SelectSession" type="FileDialog" parent="MainMenuUI"]
+auto_translate_mode = 1
 title = "Open a File"
 initial_position = 4
 size = Vector2i(800, 450)
 ok_button_text = "Open"
 file_mode = 0
 access = 2
-script = ExtResource("3_68k5b")
+filters = PackedStringArray("*.hypsav")
+script = ExtResource("2_s3swi")
+
+[node name="SessionSelectedLabel" type="Label" parent="MainMenuUI"]
+offset_left = 487.0
+offset_top = 539.0
+offset_right = 659.0
+offset_bottom = 651.0
+text = "Loaded file:
+Nothing loaded"
+horizontal_alignment = 1
+autowrap_mode = 3
 
 [node name="BeginEditingButton" type="Button" parent="MainMenuUI"]
 offset_left = 841.0
@@ -84,22 +52,19 @@ offset_right = 947.0
 offset_bottom = 363.0
 text = "Edit Session"
 
-[node name="DemoSession1Button" type="Button" parent="MainMenuUI"]
-offset_left = 74.0
-offset_top = 291.0
-offset_right = 246.0
-offset_bottom = 341.0
-text = "Load Demo Session 1"
+[node name="SessionSelectButton" type="Button" parent="MainMenuUI"]
+offset_left = 487.0
+offset_top = 472.0
+offset_right = 659.0
+offset_bottom = 522.0
+text = "Load Session"
 
 [node name="SceneContainer" type="Node2D" parent="."]
 
 [node name="SessionData" type="Node" parent="."]
 script = ExtResource("4_p33wf")
 
-[connection signal="file_selected" from="MainMenuUI/SelectAndPlayAudio" to="MainMenuUI/SelectAndPlayAudio" method="_on_FileDialog_file_selected"]
 [connection signal="pressed" from="MainMenuUI/BeginHypnosisButton" to="." method="_on_begin_hypnosis_pressed"]
-[connection signal="pressed" from="MainMenuUI/LoadMP3Button" to="MainMenuUI/SelectAndPlayAudio" method="_on_load_file_pressed"]
-[connection signal="pressed" from="MainMenuUI/SubFileButton" to="MainMenuUI/SelectSubFile" method="_on_load_file_pressed"]
-[connection signal="file_selected" from="MainMenuUI/SelectSubFile" to="MainMenuUI/SelectSubFile" method="_on_FileDialog_file_selected"]
+[connection signal="file_selected" from="MainMenuUI/SelectSession" to="MainMenuUI/SelectSession" method="_on_FileDialog_file_selected"]
 [connection signal="pressed" from="MainMenuUI/BeginEditingButton" to="." method="_on_begin_editing_button_pressed"]
-[connection signal="pressed" from="MainMenuUI/DemoSession1Button" to="." method="_on_demo_session_1_button_pressed"]
+[connection signal="pressed" from="MainMenuUI/SessionSelectButton" to="MainMenuUI/SelectSession" method="_on_load_file_pressed"]
