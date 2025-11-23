@@ -118,12 +118,12 @@ initial_position = 2
 size = Vector2i(444, 100)
 dialog_text = "Discard current session and start a new empty session?"
 
-[connection signal="visibility_changed" from="." to="." method="_on_visibility_changed"]
-[connection signal="pressed" from="CanvasLayer/BackToMenuButton" to="." method="_on_back_to_menu_button_pressed"]
-[connection signal="item_selected" from="CanvasLayer/ListOfElementsInSession" to="." method="_on_list_of_elements_in_session_item_selected"]
-[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddSubliminalButton" to="." method="_on_add_subliminal_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddInteractButton" to="." method="_on_add_interact_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddAudioButton" to="." method="_on_add_audio_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/SaveSessionButton" to="." method="_on_save_session_button_pressed"]
-[connection signal="pressed" from="CanvasLayer/NewSessionButton" to="." method="_on_new_session_button_pressed"]
-[connection signal="confirmed" from="CanvasLayer/NewSessionButton/NewSessionConfirmationDialog" to="." method="_on_new_session_confirmation_dialog_confirmed"]
+[connection signal="visibility_changed" from="." to="." method="_handle_visibility_changed"]
+[connection signal="pressed" from="CanvasLayer/BackToMenuButton" to="." method="_handle_back_to_menu_button_pressed"]
+[connection signal="item_selected" from="CanvasLayer/ListOfElementsInSession" to="." method="_handle_list_of_elements_in_session_item_selected"]
+[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddSubliminalButton" to="." method="_handle_add_subliminal_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddInteractButton" to="." method="_handle_add_interact_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddAudioButton" to="." method="_handle_add_audio_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/SaveSessionButton" to="." method="_handle_save_session_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/NewSessionButton" to="." method="_handle_new_session_button_pressed"]
+[connection signal="confirmed" from="CanvasLayer/NewSessionButton/NewSessionConfirmationDialog" to="." method="_handle_new_session_confirmation_dialog_confirmed"]
