@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://caauf1hnpju8"]
+
+[ext_resource type="Script" uid="uid://cjr06h0xxvsri" path="res://Scripts/Editing/session_element_subliminal_edit_pane.gd" id="1_qbxfg"]
+
+[node name="SubliminalEditPane" type="VBoxContainer"]
+offset_right = 8.0
+offset_bottom = 8.0
+script = ExtResource("1_qbxfg")
+
+[node name="SubliminalMessageTextBox" type="TextEdit" parent="."]
+custom_minimum_size = Vector2(256, 256)
+layout_mode = 2
+size_flags_horizontal = 0
+
+[connection signal="text_changed" from="SubliminalMessageTextBox" to="." method="_handle_text_edit_text_changed"]

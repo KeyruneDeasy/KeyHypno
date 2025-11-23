@@ -19,6 +19,7 @@ var _new_session_confirmation_dialog: ConfirmationDialog = $CanvasLayer/NewSessi
 var SubliminalClass = preload("res://Scripts/Processing/SessionElement_Subliminal.gd")
 var InteractClass = preload("res://Scripts/Processing/SessionElement_Interact.gd")
 var AudioClass = preload("res://Scripts/Processing/SessionElement_Audio.gd")
+var SessionElementSubliminalEditPaneScene = preload("res://Scenes/SessionElement_Subliminal_EditPane.tscn")
 var SessionElementInteractEditPaneScene = preload("res://Scenes/SessionElement_Interact_EditPane.tscn")
 var SessionElementAudioEditPaneScene = preload("res://Scenes/SessionElement_Audio_EditPane.tscn")
 var SaveSessionDialogScene = preload("res://Scenes/SaveSessionDialog.tscn")
@@ -107,17 +108,9 @@ func _set_selected_element_and_populate_edit_container(element: SessionElement) 
 	
 	if _selected_element is SessionElement_Subliminal:
 		_add_float_prop_to_edit_container("Time Per Message:", element.get_time_per_message_ref())
-		
-		_subliminal_messages_editor = TextEdit.new()
-		var text: String = ""
-		for message in _selected_element._messages:
-			text = text + message + "\n"
-		_subliminal_messages_editor.text = text
-		_subliminal_messages_editor.custom_minimum_size.x = 256
-		_subliminal_messages_editor.custom_minimum_size.y = 256
-		_subliminal_messages_editor.size_flags_horizontal = 0
-		_subliminal_messages_editor.text_changed.connect(_handle_subliminal_messages_editor_text_changed)
-		_edit_element_root_container.add_child(_subliminal_messages_editor)
+		var subliminal_edit_pane = SessionElementSubliminalEditPaneScene.instantiate()
+		_edit_element_root_container.add_child(subliminal_edit_pane)
+		subliminal_edit_pane.set_editing_element(_selected_element)
 	else: if _selected_element is SessionElement_Interact:
 		var interact_edit_pane = SessionElementInteractEditPaneScene.instantiate()
 		_edit_element_root_container.add_child(interact_edit_pane)
@@ -159,14 +152,6 @@ func _add_string_prop_to_edit_container(label_text: String, prop_ref: StringObj)
 func _handle_selected_element_display_name_changed(_old_name: String, _new_name: String) -> void:
 	open_session_data.update_display_name_of_element_to_be_unique(_selected_element)
 	_list_of_elements_in_session.set_item_text(_selected_index, _selected_element._display_name.get_value())
-
-
-func _handle_subliminal_messages_editor_text_changed():
-	var packed: PackedStringArray = _subliminal_messages_editor.text.split("\n", false)
-	var current_subliminal: SessionElement_Subliminal = _selected_element
-	current_subliminal._messages.clear()
-	for packed_message: String in packed:
-		current_subliminal._messages.append(packed_message)
 
 
 func _handle_delete_element_button_pressed():
