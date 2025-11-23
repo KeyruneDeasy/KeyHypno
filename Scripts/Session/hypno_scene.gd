@@ -12,11 +12,9 @@ func _ready() -> void:
 func set_session_data(in_session_data: SessionData) -> void:
 	_active_session_data = in_session_data
 	_canvas.set_session_data(_active_session_data)
-	if visible:
-		_begin_session()
 
 
-func _begin_session() -> void:
+func begin_session() -> void:
 	if _active_session_data == null:
 		return
 	_active_session_data.begin_session()

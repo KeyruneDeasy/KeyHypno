@@ -37,6 +37,7 @@ func _start_hypno() -> void:
 		_hypno_scene.hidden.connect(_handle_hypno_scene_hidden)
 	_hypno_scene.set_session_data(session_data)
 	_hypno_scene.show()
+	_hypno_scene.begin_session()
 
 
 func _start_editing() -> void:
