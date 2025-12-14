@@ -50,6 +50,8 @@ horizontal_alignment = 1
 [node name="SessionAudioPlayer" type="AudioStreamPlayer" parent="SessionCanvas"]
 script = ExtResource("4_hefst")
 
+[node name="Sprite2D" type="Sprite2D" parent="SessionCanvas"]
+
 [node name="Control" type="Control" parent="."]
 layout_mode = 3
 anchors_preset = 0

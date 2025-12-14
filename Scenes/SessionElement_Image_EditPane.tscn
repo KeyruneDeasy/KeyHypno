@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://iof6v8b10r0"]
+
+[ext_resource type="Script" uid="uid://c0l85himsrl8c" path="res://Scripts/Editing/session_element_image_edit_pane.gd" id="1_jc606"]
+
+[node name="ImageEditPane" type="VBoxContainer"]
+script = ExtResource("1_jc606")
+
+[node name="SelectPathButton" type="Button" parent="."]
+layout_mode = 2
+text = "Select Image File"
+
+[node name="PathLabel" type="Label" parent="."]
+layout_mode = 2
+
+[connection signal="pressed" from="SelectPathButton" to="." method="_handle_select_path_button_pressed"]

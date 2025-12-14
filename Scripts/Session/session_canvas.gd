@@ -3,6 +3,8 @@ extends CanvasLayer
 const END_OF_SESSION_TEXT: String = "END OF SESSION"
 
 var _session_data: SessionData
+var _image_nodes: Array[Sprite2D]
+
 @onready
 var player: AudioStreamPlayer = $SessionAudioPlayer
 @onready
@@ -86,6 +88,28 @@ func draw_session() -> void:
 				interact_label.text = "Hold the " + key_string + " key for " + str(hold_time) + " seconds."
 			else:
 				interact_label.text = "Press the " + key_string + " key."
+	
+	# Images
+	var active_images: Array[SessionElement_Image]
+	active_images.assign(active_elements.filter(
+		func(element: SessionElement): return element is SessionElement_Image
+	))
+	if !active_images.is_empty():
+		# WIP code
+		var my_image: Image = Image.new()
+		my_image.load_png_from_buffer(active_images[0].get_image_data())
+		var image_texture = ImageTexture.create_from_image(my_image)
+		$Sprite2D.set_texture(image_texture)
+		var vertical_fit_scale: float = float(get_window().size.y) / float(my_image.get_height())
+		var horizontal_fit_scale: float = float(get_window().size.x) / float(my_image.get_width())
+		var scale = minf(horizontal_fit_scale, vertical_fit_scale)
+		print(scale)
+		print("window ", get_window().size.y)
+		print("image ", my_image.get_height())
+		$Sprite2D.scale.x = scale
+		$Sprite2D.scale.y = scale
+		$Sprite2D.position = get_window().size / 2
+		
 
 
 func _input(event: InputEvent) -> void:

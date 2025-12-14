@@ -19,9 +19,11 @@ var _new_session_confirmation_dialog: ConfirmationDialog = $CanvasLayer/NewSessi
 var SubliminalClass = preload("res://Scripts/Processing/SessionElement_Subliminal.gd")
 var InteractClass = preload("res://Scripts/Processing/SessionElement_Interact.gd")
 var AudioClass = preload("res://Scripts/Processing/SessionElement_Audio.gd")
+var ImageClass = preload("res://Scripts/Processing/SessionElement_Image.gd")
 var SessionElementSubliminalEditPaneScene = preload("res://Scenes/SessionElement_Subliminal_EditPane.tscn")
 var SessionElementInteractEditPaneScene = preload("res://Scenes/SessionElement_Interact_EditPane.tscn")
 var SessionElementAudioEditPaneScene = preload("res://Scenes/SessionElement_Audio_EditPane.tscn")
+var SessionElementImageEditPaneScene = preload("res://Scenes/SessionElement_Image_EditPane.tscn")
 var SaveSessionDialogScene = preload("res://Scenes/SaveSessionDialog.tscn")
 
 var _subliminal_messages_editor: TextEdit
@@ -54,6 +56,11 @@ func _handle_add_interact_button_pressed() -> void:
 
 func _handle_add_audio_button_pressed() -> void:
 	var new_element: SessionElement_Audio = AudioClass.new()
+	_set_up_new_element(new_element)
+
+
+func _handle_add_image_button_pressed() -> void:
+	var new_element: SessionElement_Image = ImageClass.new()
 	_set_up_new_element(new_element)
 
 
@@ -119,6 +126,10 @@ func _set_selected_element_and_populate_edit_container(element: SessionElement) 
 		var audio_edit_pane = SessionElementAudioEditPaneScene.instantiate()
 		_edit_element_root_container.add_child(audio_edit_pane)
 		audio_edit_pane.set_editing_element(_selected_element)
+	else: if _selected_element is SessionElement_Image:
+		var image_edit_pane = SessionElementImageEditPaneScene.instantiate()
+		_edit_element_root_container.add_child(image_edit_pane)
+		image_edit_pane.set_editing_element(_selected_element)
 
 	
 	var delete_button: Button = Button.new()
