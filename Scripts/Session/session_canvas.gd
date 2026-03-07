@@ -96,8 +96,10 @@ func draw_session() -> void:
 	))
 	if !active_images.is_empty():
 		# WIP code
+		var image_element: SessionElement_Image = active_images[0]
 		var my_image: Image = Image.new()
-		my_image.load_png_from_buffer(active_images[0].get_image_data())
+		image_element.load_image_object(my_image)
+		my_image.load_png_from_buffer(image_element.get_image_data())
 		var image_texture = ImageTexture.create_from_image(my_image)
 		$Sprite2D.set_texture(image_texture)
 		var vertical_fit_scale: float = float(get_window().size.y) / float(my_image.get_height())

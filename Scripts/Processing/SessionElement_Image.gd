@@ -62,3 +62,22 @@ func populate_file_data_from_manifest(session_data: SessionData) -> void:
 
 func can_run() -> bool:
 	return file.is_set()
+
+
+# Loads the image associated with this SessionElement into the given Image object,
+# choosing the correct function according to the file extension.
+func load_image_object(image_obj: Image) -> void:
+	var ext: String = get_image_ext()
+	var buffer: PackedByteArray = get_image_data()
+	
+	if(ext == "png"):
+		image_obj.load_png_from_buffer(buffer)
+	else: if(ext == "jpg" || ext == "jpeg"):
+		image_obj.load_jpg_from_buffer(buffer)
+	else: if(ext == "svg"):
+		image_obj.load_svg_from_buffer(buffer)
+	else: if(ext == "webp"):
+		image_obj.load_webp_from_buffer(buffer)
+	else:
+		print("ERROR: cannot load image from " + ext + " file.")
+		

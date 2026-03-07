@@ -6,4 +6,4 @@ initial_position = 1
 size = Vector2i(700, 400)
 file_mode = 0
 access = 2
-filters = PackedStringArray("*.png")
+filters = PackedStringArray("*.png", "*.jpg", "*.jpeg", "*.svg", "*.webp")
