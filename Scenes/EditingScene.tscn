@@ -24,7 +24,7 @@ text = "Back to Menu
 offset_left = 58.0
 offset_top = 36.0
 offset_right = 247.0
-offset_bottom = 489.0
+offset_bottom = 453.0
 
 [node name="EditElementRootContainer" type="VBoxContainer" parent="CanvasLayer"]
 offset_left = 407.0
@@ -79,8 +79,8 @@ text = "Delete Element"
 layout_mode = 2
 
 [node name="NewElementButtonContainer" type="VBoxContainer" parent="CanvasLayer"]
-offset_left = 83.0
-offset_top = 500.0
+offset_left = 85.0
+offset_top = 470.0
 offset_right = 217.0
 offset_bottom = 645.0
 
@@ -99,6 +99,10 @@ text = "New Audio"
 [node name="AddImageButton" type="Button" parent="CanvasLayer/NewElementButtonContainer"]
 layout_mode = 2
 text = "New Image"
+
+[node name="AddVideoButton" type="Button" parent="CanvasLayer/NewElementButtonContainer"]
+layout_mode = 2
+text = "New Video"
 
 [node name="SaveSessionButton" type="Button" parent="CanvasLayer"]
 offset_left = 1017.0
@@ -129,6 +133,7 @@ dialog_text = "Discard current session and start a new empty session?"
 [connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddInteractButton" to="." method="_handle_add_interact_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddAudioButton" to="." method="_handle_add_audio_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddImageButton" to="." method="_handle_add_image_button_pressed"]
+[connection signal="pressed" from="CanvasLayer/NewElementButtonContainer/AddVideoButton" to="." method="_handle_add_video_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/SaveSessionButton" to="." method="_handle_save_session_button_pressed"]
 [connection signal="pressed" from="CanvasLayer/NewSessionButton" to="." method="_handle_new_session_button_pressed"]
 [connection signal="confirmed" from="CanvasLayer/NewSessionButton/NewSessionConfirmationDialog" to="." method="_handle_new_session_confirmation_dialog_confirmed"]

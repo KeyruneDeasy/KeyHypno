@@ -1,9 +1,10 @@
-[gd_scene load_steps=5 format=3 uid="uid://cdl3j40ih58fc"]
+[gd_scene load_steps=6 format=3 uid="uid://cdl3j40ih58fc"]
 
 [ext_resource type="Script" uid="uid://dp6t60wu1nt45" path="res://Scripts/Session/hypno_scene.gd" id="1_lcxrx"]
 [ext_resource type="Script" uid="uid://djp2alolwjf37" path="res://Scripts/Session/subliminal.gd" id="2_byw8y"]
 [ext_resource type="Script" uid="uid://kwedc6vfxl4f" path="res://Scripts/Session/session_canvas.gd" id="2_hltvx"]
 [ext_resource type="Script" uid="uid://dme4gk77yds86" path="res://Scripts/Session/session_audio_player.gd" id="4_hefst"]
+[ext_resource type="Script" uid="uid://kr8ey4pmbxay" path="res://Scripts/Session/session_video_player.gd" id="5_87e5b"]
 
 [node name="HypnoScene" type="Node2D"]
 script = ExtResource("1_lcxrx")
@@ -51,6 +52,20 @@ horizontal_alignment = 1
 script = ExtResource("4_hefst")
 
 [node name="Sprite2D" type="Sprite2D" parent="SessionCanvas"]
+
+[node name="SessionVideoPlayer" type="VideoStreamPlayer" parent="SessionCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+offset_left = -20.0
+offset_top = -20.0
+offset_right = 20.0
+offset_bottom = 20.0
+grow_horizontal = 2
+grow_vertical = 2
+script = ExtResource("5_87e5b")
 
 [node name="Control" type="Control" parent="."]
 layout_mode = 3

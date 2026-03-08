@@ -1,9 +1,9 @@
-class_name SessionElement_Audio
+class_name SessionElement_Video
 extends SessionElement_SingleFile
 	
 
 static func get_type_static() -> String:
-	return "AUDIO"
+	return "VIDEO"
 
 
 func _init() -> void:
@@ -12,16 +12,16 @@ func _init() -> void:
 
 
 func get_default_display_name() -> String:
-	return "Audio"
+	return "Video"
 
 
 func get_type() -> String:
 	return get_type_static()
 
 
-func get_audio_data() -> PackedByteArray:
+func get_video_data() -> PackedByteArray:
 	return get_file_data()
 
 
-func get_audio_ext() -> String:
+func get_video_ext() -> String:
 	return get_file_ext()

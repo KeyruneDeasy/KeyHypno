@@ -180,6 +180,8 @@ func decode_from_json(data: String) -> void:
 			element = add_element_of_class(SessionElement_Interact)
 		else: if entry["type"] == SessionElement_Image.get_type_static():
 			element = add_element_of_class(SessionElement_Image)
+		else: if entry["type"] == SessionElement_Video.get_type_static():
+			element = add_element_of_class(SessionElement_Video)
 		else:
 			print("invalid event type " + entry.type)
 			return

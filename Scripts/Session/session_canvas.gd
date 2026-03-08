@@ -6,7 +6,9 @@ var _session_data: SessionData
 var _image_nodes: Array[Sprite2D]
 
 @onready
-var player: AudioStreamPlayer = $SessionAudioPlayer
+var audio_player: AudioStreamPlayer = $SessionAudioPlayer
+@onready
+var video_player: VideoStreamPlayer = $SessionVideoPlayer
 @onready
 var subliminal_label: Label = $SubliminalLabel
 @onready
@@ -23,8 +25,10 @@ func _process(_delta: float) -> void:
 	if _session_data != null && visible:
 		draw_session()
 	if !visible:
-		if player.playing:
-			player.stop()
+		if audio_player.playing:
+			audio_player.stop()
+		if video_player.is_playing():
+			video_player.stop()
 
 
 func set_session_data(in_session_data: SessionData) -> void:
@@ -56,18 +60,18 @@ func draw_session() -> void:
 	active_audios.assign(active_elements.filter(
 		func(element: SessionElement): return element is SessionElement_Audio
 	))
-	if active_audios.size() == 0  && player.playing:
-		player.stop_and_clear()
+	if active_audios.size() == 0  && audio_player.playing:
+		audio_player.stop_and_clear()
 	elif _session_data.is_paused():
 		# TODO: This presumably loses the place in the audio stream.
 		# Should keep it so it can be resumed.
-		player.stop()
+		audio_player.stop()
 	elif active_audios.size() > 0 && !_session_data.is_paused():
 		# TODO: support multiple audio streams
 		var audio_data: PackedByteArray = active_audios[0].get_audio_data()
-		if !player.is_playing_data(audio_data):
+		if !audio_player.is_playing_data(audio_data):
 			var audio_ext: String = active_audios[0].get_audio_ext()
-			player.play_file_data(audio_data, audio_ext)
+			audio_player.play_file_data(audio_data, audio_ext)
 	
 	# Interacts
 	var active_interacts: Array[SessionElement_Interact]
@@ -111,6 +115,25 @@ func draw_session() -> void:
 		$Sprite2D.scale.x = scale
 		$Sprite2D.scale.y = scale
 		$Sprite2D.position = get_window().size / 2
+	
+	# Videos
+	var active_videos: Array[SessionElement_Video]
+	active_videos.assign(active_elements.filter(
+		func(element: SessionElement): return element is SessionElement_Video
+	))
+	if active_videos.size() == 0  && video_player.is_playing():
+		video_player.stop_and_clear()
+	elif _session_data.is_paused():
+		# TODO: This presumably loses the place in the video stream.
+		# Should keep it so it can be resumed.
+		video_player.stop()
+	elif active_videos.size() > 0 && !_session_data.is_paused():
+		# TODO: handle multiple video streams?
+		var video_element: SessionElement_Video = active_videos[0]
+		var video_path: String = video_element.get_file_data_temp_path()
+		if !video_player.is_playing_path(video_path):
+			var video_ext: String = video_element.get_video_ext()
+			video_player.play_file_path(video_path, video_ext)
 		
 
 

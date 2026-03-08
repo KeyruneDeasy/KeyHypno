@@ -1,0 +1,15 @@
+[gd_scene load_steps=2 format=3 uid="uid://vwkoomkdm388"]
+
+[ext_resource type="Script" uid="uid://cf60efeq22ulf" path="res://Scripts/Editing/session_element_video_edit_pane.gd" id="1_j7wms"]
+
+[node name="VideoEditPane" type="VBoxContainer"]
+script = ExtResource("1_j7wms")
+
+[node name="SelectPathButton" type="Button" parent="."]
+layout_mode = 2
+text = "Select Video File"
+
+[node name="PathLabel" type="Label" parent="."]
+layout_mode = 2
+
+[connection signal="pressed" from="SelectPathButton" to="." method="_handle_select_path_button_pressed"]

@@ -28,6 +28,14 @@ func get_file() -> SessionResourceFile:
 	return _file
 
 
+func get_local_path() -> String:
+	return ("") if (_file == null) else (_file.get_local_path())
+	
+
+func get_file_data_temp_path() -> String:
+	return _file.get_file_data_temp_path()
+
+
 func populate_file_data_from_manifest(session_data: SessionData) -> void:
 	if _session_resource_file_id != -1:
 		_file = session_data.get_file_from_manifest_by_id(_session_resource_file_id)

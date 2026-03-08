@@ -14,4 +14,4 @@ text = "Select Audio File"
 [node name="PathLabel" type="Label" parent="."]
 layout_mode = 2
 
-[connection signal="pressed" from="SelectPathButton" to="." method="_on_select_path_button_pressed"]
+[connection signal="pressed" from="SelectPathButton" to="." method="_handle_select_path_button_pressed"]

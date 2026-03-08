@@ -35,7 +35,7 @@ func _handle_file_selected(path: String) -> void:
 
 
 func _populate() -> void:
-	if _editing_element.path.is_empty():
+	if _editing_element.get_local_path().is_empty():
 		PathLabel.text = "No file selected"
 	else:
-		PathLabel.text = _editing_element.path.get_file()
+		PathLabel.text = _editing_element.get_local_path().get_file()
