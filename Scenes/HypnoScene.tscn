@@ -51,8 +51,6 @@ horizontal_alignment = 1
 [node name="SessionAudioPlayer" type="AudioStreamPlayer" parent="SessionCanvas"]
 script = ExtResource("4_hefst")
 
-[node name="Sprite2D" type="Sprite2D" parent="SessionCanvas"]
-
 [node name="SessionVideoPlayer" type="VideoStreamPlayer" parent="SessionCanvas"]
 anchors_preset = 8
 anchor_left = 0.5
@@ -67,21 +65,27 @@ grow_horizontal = 2
 grow_vertical = 2
 script = ExtResource("5_87e5b")
 
-[node name="Control" type="Control" parent="."]
-layout_mode = 3
-anchors_preset = 0
-offset_right = 40.0
-offset_bottom = 40.0
+[node name="ImageGridContainer" type="GridContainer" parent="SessionCanvas"]
+anchors_preset = 8
+anchor_left = 0.5
+anchor_top = 0.5
+anchor_right = 0.5
+anchor_bottom = 0.5
+grow_horizontal = 2
+grow_vertical = 2
 
-[node name="MainMenuButton" type="Button" parent="."]
+[node name="OverlayLayer" type="CanvasLayer" parent="."]
+layer = 2
+
+[node name="MainMenuButton" type="Button" parent="OverlayLayer"]
 anchors_preset = 1
 anchor_left = 1.0
 anchor_right = 1.0
-offset_left = 1039.0
+offset_left = -113.0
 offset_top = 14.0
-offset_right = 1135.0
+offset_right = -17.0
 offset_bottom = 63.0
 grow_horizontal = 0
 text = "Main Menu"
 
-[connection signal="pressed" from="MainMenuButton" to="." method="_handle_main_menu_button_pressed"]
+[connection signal="pressed" from="OverlayLayer/MainMenuButton" to="." method="_handle_main_menu_button_pressed"]

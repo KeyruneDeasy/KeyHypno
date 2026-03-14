@@ -3,7 +3,8 @@ extends CanvasLayer
 const END_OF_SESSION_TEXT: String = "END OF SESSION"
 
 var _session_data: SessionData
-var _image_nodes: Array[Sprite2D]
+
+var _currently_displayed_image_element: SessionElement_Image
 
 @onready
 var audio_player: AudioStreamPlayer = $SessionAudioPlayer
@@ -15,6 +16,8 @@ var subliminal_label: Label = $SubliminalLabel
 var debug_label: Label = $DebugLabel
 @onready
 var interact_label: Label = $InteractLabel
+@onready
+var image_grid_container: GridContainer = $ImageGridContainer
 
 
 func _ready() -> void:
@@ -93,28 +96,7 @@ func draw_session() -> void:
 			else:
 				interact_label.text = "Press the " + key_string + " key."
 	
-	# Images
-	var active_images: Array[SessionElement_Image]
-	active_images.assign(active_elements.filter(
-		func(element: SessionElement): return element is SessionElement_Image
-	))
-	if !active_images.is_empty():
-		# WIP code
-		var image_element: SessionElement_Image = active_images[0]
-		var my_image: Image = Image.new()
-		image_element.load_image_object(my_image)
-		my_image.load_png_from_buffer(image_element.get_image_data())
-		var image_texture = ImageTexture.create_from_image(my_image)
-		$Sprite2D.set_texture(image_texture)
-		var vertical_fit_scale: float = float(get_window().size.y) / float(my_image.get_height())
-		var horizontal_fit_scale: float = float(get_window().size.x) / float(my_image.get_width())
-		var scale = minf(horizontal_fit_scale, vertical_fit_scale)
-		print(scale)
-		print("window ", get_window().size.y)
-		print("image ", my_image.get_height())
-		$Sprite2D.scale.x = scale
-		$Sprite2D.scale.y = scale
-		$Sprite2D.position = get_window().size / 2
+	draw_session_images()
 	
 	# Videos
 	var active_videos: Array[SessionElement_Video]
@@ -134,7 +116,68 @@ func draw_session() -> void:
 		if !video_player.is_playing_path(video_path):
 			var video_ext: String = video_element.get_video_ext()
 			video_player.play_file_path(video_path, video_ext)
+
+
+func draw_session_images() -> void:
+	var active_elements: Array[SessionElement] = _session_data.get_active_elements()
+	
+	var active_images: Array[SessionElement_Image]
+	active_images.assign(active_elements.filter(
+		func(element: SessionElement): return element is SessionElement_Image
+	))
+	if active_images.is_empty():
+		if _currently_displayed_image_element != null:
+			_clear_displayed_image()
+		return
+	
+	var image_element: SessionElement_Image = active_images[0]
+	
+	if image_element == _currently_displayed_image_element:
+		return
+	
+	_clear_displayed_image()
+	
+	var image_object: Image = Image.new()
+	image_element.load_image_object(image_object)
+	var image_texture = ImageTexture.create_from_image(image_object)
+	
+	var layout: SessionElement_Image.ImageLayout = image_element.get_image_layout()
+	if layout == SessionElement_Image.ImageLayout.FIT_TO_WINDOW || \
+		layout == SessionElement_Image.ImageLayout.FILL_WINDOW || \
+		layout == SessionElement_Image.ImageLayout.STRETCH:
+		image_grid_container.position = get_window().size / 2
+		var new_sprite: Sprite2D = Sprite2D.new()
+		image_grid_container.add_child(new_sprite) 
+		new_sprite.set_texture(image_texture)
+		var vertical_fit_scale: float = float(get_window().size.y) / float(image_object.get_height())
+		var horizontal_fit_scale: float = float(get_window().size.x) / float(image_object.get_width())
+		if layout == SessionElement_Image.ImageLayout.FIT_TO_WINDOW:
+			new_sprite.scale.x = minf(horizontal_fit_scale, vertical_fit_scale)
+			new_sprite.scale.y = new_sprite.scale.x
+		else: if layout == SessionElement_Image.ImageLayout.FILL_WINDOW:
+			new_sprite.scale.x = maxf(horizontal_fit_scale, vertical_fit_scale)
+			new_sprite.scale.y = new_sprite.scale.x
+		else:
+			new_sprite.scale.x = horizontal_fit_scale
+			new_sprite.scale.y = vertical_fit_scale
+
+	else: if layout == SessionElement_Image.ImageLayout.TILED:
+		@warning_ignore("integer_division")
+		var num_horizontal_tiles: int = (get_window().size.x / image_object.get_width()) + 1
+		@warning_ignore("integer_division")
+		var num_vertical_tiles: int = (get_window().size.y / image_object.get_height()) + 1
+		image_grid_container.columns = num_horizontal_tiles
+		image_grid_container.position = Vector2(0.0, 0.0)
 		
+		for horizontal_index in num_horizontal_tiles:
+			for vertical_index in num_vertical_tiles:
+				var new_sprite: Sprite2D = Sprite2D.new()
+				new_sprite.position.x = image_object.get_width() * (horizontal_index + 0.5)
+				new_sprite.position.y = image_object.get_height() * (vertical_index + 0.5)
+				new_sprite.set_texture(image_texture)
+				image_grid_container.add_child(new_sprite) 
+				
+	_currently_displayed_image_element = image_element
 
 
 func _input(event: InputEvent) -> void:
@@ -148,4 +191,9 @@ func _input(event: InputEvent) -> void:
 func _handle_session_end_reached() -> void:
 	subliminal_label.visible = true
 	subliminal_label.text = END_OF_SESSION_TEXT
-	
+
+
+func _clear_displayed_image() -> void:
+	for child in image_grid_container.get_children():
+		image_grid_container.remove_child(child)
+	_currently_displayed_image_element = null

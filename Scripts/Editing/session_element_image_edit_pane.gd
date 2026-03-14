@@ -7,6 +7,8 @@ var ImageFileSelectScene = preload("res://Scenes/ImageFileSelect.tscn")
 
 @onready
 var PathLabel = $PathLabel
+@onready
+var _image_layout_option_button = $ImageLayoutOptionButton
 
 
 func _ready() -> void:
@@ -39,3 +41,8 @@ func _populate() -> void:
 		PathLabel.text = "No file selected"
 	else:
 		PathLabel.text = _editing_element.get_local_path().get_file()
+	_image_layout_option_button.select(_editing_element.get_image_layout())
+
+
+func _handle_image_layout_option_button_item_selected(index: int) -> void:
+	_editing_element.set_image_layout(index)

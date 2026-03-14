@@ -12,4 +12,17 @@ text = "Select Image File"
 [node name="PathLabel" type="Label" parent="."]
 layout_mode = 2
 
+[node name="ImageLayoutOptionButton" type="OptionButton" parent="."]
+layout_mode = 2
+item_count = 4
+popup/item_0/text = "Fit To Window"
+popup/item_0/id = 0
+popup/item_1/text = "Fill Window"
+popup/item_1/id = 1
+popup/item_2/text = "Stretch"
+popup/item_2/id = 2
+popup/item_3/text = "Tiled"
+popup/item_3/id = 3
+
 [connection signal="pressed" from="SelectPathButton" to="." method="_handle_select_path_button_pressed"]
+[connection signal="item_selected" from="ImageLayoutOptionButton" to="." method="_handle_image_layout_option_button_item_selected"]
