@@ -280,3 +280,26 @@ func save_to(path: String) -> void:
 
 func get_file_from_manifest_by_id(id: int) -> SessionResourceFile:
 	return _file_manifest[id]
+
+
+func calculate_end_time() -> float:
+	var end_time = 0.0
+	for element in _elements:
+		end_time = maxf(element.get_end_time(), end_time)
+	return end_time
+
+
+func get_current_time() -> float:
+	return _global_time
+
+
+func snap_to_time(time: float) -> void:
+	_global_time = time
+	_at_end = false
+	for element: SessionElement in _elements:
+		element.reset_element_execution()
+	_paused = false
+	for element: SessionElement in _elements:
+		element.begin_element()
+		element.process_element(_global_time - element.get_start_time())
+	

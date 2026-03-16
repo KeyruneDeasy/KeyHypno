@@ -98,3 +98,7 @@ func decode_from_json(entry : Dictionary) -> void:
 
 func get_type() -> String:
 	return get_type_static()
+
+
+func get_end_time() -> float:
+	return get_start_time()
