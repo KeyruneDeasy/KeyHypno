@@ -1,10 +1,11 @@
-[gd_scene load_steps=6 format=3 uid="uid://cdl3j40ih58fc"]
+[gd_scene load_steps=7 format=3 uid="uid://cdl3j40ih58fc"]
 
 [ext_resource type="Script" uid="uid://dp6t60wu1nt45" path="res://Scripts/Session/hypno_scene.gd" id="1_lcxrx"]
 [ext_resource type="Script" uid="uid://djp2alolwjf37" path="res://Scripts/Session/subliminal.gd" id="2_byw8y"]
 [ext_resource type="Script" uid="uid://kwedc6vfxl4f" path="res://Scripts/Session/session_canvas.gd" id="2_hltvx"]
 [ext_resource type="Script" uid="uid://dme4gk77yds86" path="res://Scripts/Session/session_audio_player.gd" id="4_hefst"]
 [ext_resource type="Script" uid="uid://kr8ey4pmbxay" path="res://Scripts/Session/session_video_player.gd" id="5_87e5b"]
+[ext_resource type="Script" uid="uid://d0f4yamnoa4c6" path="res://Scripts/Session/session_progress_slider.gd" id="6_u2xpy"]
 
 [node name="HypnoScene" type="Node2D"]
 script = ExtResource("1_lcxrx")
@@ -100,7 +101,6 @@ offset_right = 375.0
 grow_horizontal = 2
 grow_vertical = 0
 step = 0.01
+script = ExtResource("6_u2xpy")
 
 [connection signal="pressed" from="OverlayLayer/MainMenuButton" to="." method="_handle_main_menu_button_pressed"]
-[connection signal="drag_ended" from="OverlayLayer/SessionProgressSlider" to="." method="_handle_session_progress_slider_drag_ended"]
-[connection signal="drag_started" from="OverlayLayer/SessionProgressSlider" to="." method="_handle_session_progress_slider_drag_started"]
