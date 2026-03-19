@@ -1,15 +1,17 @@
 extends Node2D
 
-var _canvas: CanvasLayer
 var _active_session_data: SessionData
 var _is_dragging_progress_slider: bool
 
 @onready
 var _session_progress_slider: Slider = $OverlayLayer/SessionProgressSlider
+@onready
+var _overlay: CanvasLayer = $OverlayLayer
+@onready
+var _canvas: CanvasLayer = $SessionCanvas
 
 
 func _ready() -> void:
-	_canvas = $SessionCanvas
 	visibility_changed.connect(_handle_visibility_changed)
 
 
@@ -32,6 +34,7 @@ func begin_session() -> void:
 
 func _handle_visibility_changed() -> void:
 	_canvas.visible = visible
+	_overlay.visible = visible
 
 
 func _handle_main_menu_button_pressed() -> void:
