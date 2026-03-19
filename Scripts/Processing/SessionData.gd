@@ -9,6 +9,7 @@ var _file_manifest: Array[SessionResourceFile]
 var _new_file_manifest: Array[SessionResourceFile]
 
 signal on_session_end_reached()
+signal on_snap_to_time()
 
 
 func _ready() -> void:
@@ -300,6 +301,13 @@ func snap_to_time(time: float) -> void:
 		element.reset_element_execution()
 	_paused = false
 	for element: SessionElement in _elements:
-		element.begin_element()
-		element.process_element(_global_time - element.get_start_time())
+		if (
+			_global_time >= element.get_start_time() 
+			and _global_time < element.get_end_time() 
+			and not (element is SessionElement_Interact)
+			and element.can_run()
+			):
+			element.begin_element()
+			element.process_element(_global_time - element.get_start_time())
+	on_snap_to_time.emit()
 	

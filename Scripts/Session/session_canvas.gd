@@ -37,8 +37,10 @@ func _process(_delta: float) -> void:
 func set_session_data(in_session_data: SessionData) -> void:
 	if _session_data != null:
 		_session_data.on_session_end_reached.disconnect(_handle_session_end_reached)
+		_session_data.on_snap_to_time.disconnect(_handle_snap_to_time)
 	_session_data = in_session_data
 	_session_data.on_session_end_reached.connect(_handle_session_end_reached)
+	_session_data.on_snap_to_time.connect(_handle_snap_to_time)
 
 
 func draw_session() -> void:
@@ -191,6 +193,37 @@ func _input(event: InputEvent) -> void:
 func _handle_session_end_reached() -> void:
 	subliminal_label.visible = true
 	subliminal_label.text = END_OF_SESSION_TEXT
+
+
+func _handle_snap_to_time() -> void:
+	audio_player.stop_and_clear()
+	video_player.stop_and_clear()
+	if _session_data.is_paused():
+		return
+	
+	var active_audios: Array[SessionElement_Audio]
+	active_audios.assign(_session_data.get_active_elements().filter(
+		func(element: SessionElement): return element is SessionElement_Audio
+	))
+	
+	if active_audios.size() > 0:
+		var audio_element: SessionElement_Audio = active_audios[0]
+		var audio_data: PackedByteArray = audio_element.get_audio_data()
+		var audio_ext: String = active_audios[0].get_audio_ext()
+		audio_player.play_file_data(audio_data, audio_ext)
+		audio_player.seek(audio_element.get_local_time())
+	
+	var active_videos: Array[SessionElement_Video]
+	active_videos.assign(_session_data.get_active_elements().filter(
+		func(element: SessionElement): return element is SessionElement_Video
+	))
+	
+	if active_videos.size() > 0:
+		var video_element: SessionElement_Video = active_videos[0]
+		var video_path: String = video_element.get_file_data_temp_path()
+		var video_ext: String = video_element.get_video_ext()
+		video_player.play_file_path(video_path, video_ext)
+		video_player.stream_position = fmod(video_element.get_local_time(), video_player.get_stream_length())
 
 
 func _clear_displayed_image() -> void:
