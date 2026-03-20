@@ -1,4 +1,4 @@
-[gd_scene load_steps=7 format=3 uid="uid://cdl3j40ih58fc"]
+[gd_scene load_steps=8 format=3 uid="uid://cdl3j40ih58fc"]
 
 [ext_resource type="Script" uid="uid://dp6t60wu1nt45" path="res://Scripts/Session/hypno_scene.gd" id="1_lcxrx"]
 [ext_resource type="Script" uid="uid://djp2alolwjf37" path="res://Scripts/Session/subliminal.gd" id="2_byw8y"]
@@ -6,6 +6,7 @@
 [ext_resource type="Script" uid="uid://dme4gk77yds86" path="res://Scripts/Session/session_audio_player.gd" id="4_hefst"]
 [ext_resource type="Script" uid="uid://kr8ey4pmbxay" path="res://Scripts/Session/session_video_player.gd" id="5_87e5b"]
 [ext_resource type="Script" uid="uid://d0f4yamnoa4c6" path="res://Scripts/Session/session_progress_slider.gd" id="6_u2xpy"]
+[ext_resource type="Script" uid="uid://mmbte64xrnb2" path="res://Scripts/Session/pause_button.gd" id="7_xk0ir"]
 
 [node name="HypnoScene" type="Node2D"]
 script = ExtResource("1_lcxrx")
@@ -102,5 +103,20 @@ grow_horizontal = 2
 grow_vertical = 0
 step = 0.01
 script = ExtResource("6_u2xpy")
+
+[node name="PauseButton" type="Button" parent="OverlayLayer"]
+anchors_preset = 3
+anchor_left = 1.0
+anchor_top = 1.0
+anchor_right = 1.0
+anchor_bottom = 1.0
+offset_left = -178.0
+offset_top = -41.0
+offset_right = -103.0
+offset_bottom = -10.0
+grow_horizontal = 0
+grow_vertical = 0
+text = "Pause"
+script = ExtResource("7_xk0ir")
 
 [connection signal="pressed" from="OverlayLayer/MainMenuButton" to="." method="_handle_main_menu_button_pressed"]
