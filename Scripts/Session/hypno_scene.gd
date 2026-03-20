@@ -8,6 +8,8 @@ var _session_progress_slider: Slider = $OverlayLayer/SessionProgressSlider
 var _overlay: CanvasLayer = $OverlayLayer
 @onready
 var _canvas: CanvasLayer = $SessionCanvas
+@onready
+var _pause_button: Button = $OverlayLayer/PauseButton
 
 
 func _ready() -> void:
@@ -22,6 +24,7 @@ func set_session_data(in_session_data: SessionData) -> void:
 	_active_session_data = in_session_data
 	_canvas.set_session_data(_active_session_data)
 	_session_progress_slider.set_session_data(_active_session_data)
+	_pause_button.set_session_data(_active_session_data)
 
 
 func begin_session() -> void:

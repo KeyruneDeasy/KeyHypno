@@ -68,15 +68,15 @@ func draw_session() -> void:
 	if active_audios.size() == 0  && audio_player.playing:
 		audio_player.stop_and_clear()
 	elif _session_data.is_paused():
-		# TODO: This presumably loses the place in the audio stream.
-		# Should keep it so it can be resumed.
 		audio_player.stop()
 	elif active_audios.size() > 0 && !_session_data.is_paused():
 		# TODO: support multiple audio streams
-		var audio_data: PackedByteArray = active_audios[0].get_audio_data()
+		var audio_element: SessionElement_Audio = active_audios[0]
+		var audio_data: PackedByteArray = audio_element.get_audio_data()
 		if !audio_player.is_playing_data(audio_data):
-			var audio_ext: String = active_audios[0].get_audio_ext()
+			var audio_ext: String = audio_element.get_audio_ext()
 			audio_player.play_file_data(audio_data, audio_ext)
+			audio_player.seek(audio_element.get_local_time())
 	
 	# Interacts
 	var active_interacts: Array[SessionElement_Interact]

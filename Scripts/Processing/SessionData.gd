@@ -8,6 +8,7 @@ var _global_time: float = 0.0
 var _file_manifest: Array[SessionResourceFile]
 var _new_file_manifest: Array[SessionResourceFile]
 
+signal on_session_started()
 signal on_session_end_reached()
 signal on_snap_to_time()
 
@@ -22,6 +23,7 @@ func begin_session():
 	for element: SessionElement in _elements:
 		element.reset_element_execution()
 	_paused = false
+	on_session_started.emit()
 
 
 func _process(delta: float) -> void:
