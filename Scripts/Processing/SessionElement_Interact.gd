@@ -1,7 +1,10 @@
 class_name SessionElement_Interact
 extends SessionElement
 
+# Saved config
 var _button_sequence: Array[ButtonInteract]
+
+# Transient state
 var _next_awaited_button_index: int = 0
 var _holding_awaited_button: bool = false
 var _time_holding_awaited_button: float = 0.0
@@ -87,14 +90,25 @@ func _advance_awaited_button() -> void:
 
 
 func encode_to_json() -> Dictionary:
-	var out : Dictionary = super.encode_to_json()
-	#out.get_or_add("path", path)
+	var out: Dictionary = super.encode_to_json()
+	
+	var button_interact_dictionaries: Array[Dictionary]
+	for button_interact: ButtonInteract in _button_sequence:
+		var button_interact_dictionary: Dictionary
+		button_interact.encode_to_json(button_interact_dictionary)
+		button_interact_dictionaries.push_back(button_interact_dictionary)
+	out.get_or_add("ButtonInteracts", button_interact_dictionaries)
 	return out
 	
 	
-func decode_from_json(entry : Dictionary) -> void:
+func decode_from_json(entry: Dictionary) -> void:
 	super.decode_from_json(entry)
-	
+	var button_interact_dictionaries: Array = entry["ButtonInteracts"]
+	for button_interact_dictionary: Dictionary in button_interact_dictionaries:
+		var button_interact = ButtonInteract.new()
+		button_interact.decode_from_json(button_interact_dictionary)
+		_button_sequence.push_back(button_interact)
+
 
 func get_type() -> String:
 	return get_type_static()
